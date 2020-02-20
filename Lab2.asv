@@ -63,8 +63,6 @@ mesh(X,Y,Z);
 mesh(X,Y,abs(fft2(Z)));
 mesh(X,Y,angle(fft2(Z)));
 Z2 = sin(X*2).*sin(Y*2);
-
-
 subplot(3,1,1)
 mesh(X,Y,Z2);
 subplot(3,1,2)
@@ -72,36 +70,19 @@ mesh(X,Y,abs(fft2(Z2)));
 subplot(3,1,3)
 mesh(X,Y,angle(fft2(Z2)));
 
-%B5
-%Gaussian filter fspecial('gaussian',hsize,sigma)
-[X_filter, Y_filter]= meshgrid(linspace(1,3,1));
-gaussian_filter = fspecial('gaussian',5,1);
-alpha1=1;
-beta1=50;
-alpha2=1;
-beta2=50;
-[rows,cols]=size(Z); 
-%rearrange image
-for x = 1:cols %address all columns
-  for y = 1:rows %address all rows
-    %fprintf(string(x>=alpha1 && x<=beta1));
-    %fprintf('\n')
-    if ~((x>=alpha1 && x<=beta1) && (y>=alpha2 && y<=beta2))
-        %fprintf('%i\n', x);
-        %fprintf('%i\n', y);
-        Z(x,y)=0;
-        %fprintf('%i\n',image(x,y))
-    end
-  end
-end
 
-%Z = imfilter(Z,gaussian_filter); 
 subplot(3,1,1)
 mesh(X,Y,Z);
 subplot(3,1,2)
 mesh(X,Y,abs(fft2(Z)));
 subplot(3,1,3)
 mesh(X,Y,angle(fft2(Z)));
+
+
+%B5
+%Gaussian filter fspecial('gaussian',hsize,sigma)
+[X_filter, Y_filter]= meshgrid(linspace(1,3,1));
+gaussian_filter = fspecial('gaussian',5,1);
 
 
 
@@ -161,6 +142,25 @@ subplot(2,3,6), imagesc(log(abs(FpicT)))
 title ('Rotated Rearranged Fourier transform')
 
 
+function box_filter = boxfilter(image, alpha1, beta1, alpha2, beta2)
+%New image is rearranged so when transformed dc is at centre
+%
+%  Usage: new image = rearrange(image)
+%
+%  Parameters: image      - array of points 
+
+%get dimensions
+[rows,cols]=size(image); 
+%rearrange image
+for x = 1:cols %address all columns
+  for y = 1:rows %address all rows
+    if x>alpha1 & x<beta1
+    rearranged(y,x)=image(y,x)*((-1)^(y+x)); %Eq. 2.30
+  end
+end
+end
+
+
 
 
 % need to check what is abs or phase
@@ -183,31 +183,5 @@ for x = 1:cols %address all columns
   end
 end
 end
-
-function boxfilter(image, alpha1, beta1, alpha2, beta2)
-%New image is rearranged so when transformed dc is at centre
-%
-%  Usage: new image = rearrange(image)
-%
-%  Parameters: image      - array of points 
-
-%get dimensions
-[rows,cols]=size(image); 
-%rearrange image
-for x = 1:cols %address all columns
-  for y = 1:rows %address all rows
-    %fprintf(string(x>=alpha1 && x<=beta1));
-    %fprintf('\n')
-    if ((x>=alpha1 && x<=beta1) && (y>=alpha2 && y<=beta2))
-        %fprintf('%i\n', x);
-        %fprintf('%i\n', y);
-        image(x,y) = 0;
-        %fprintf('%i\n',image(x,y))
-    end
-  end
-end
-end
-
-
 
 
