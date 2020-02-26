@@ -122,7 +122,6 @@ Fpic_true = fft2(pic);
 %fourier transform with no phase
 
 no_phase = abs(Fpic_true);
-%no_mag = abs(Fpic_true);
 
 
 %B8
