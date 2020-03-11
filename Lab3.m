@@ -60,6 +60,10 @@ F_filter = fft2(gaussian_kernel_10);
 Z = immultiply(abs(F_lena_noise),abs(F_filter));
 Z2 = conv2(F_lena_noise,F_filter);
 
+
+
+mtx_mul = F_lena_noise .* F_filter;
+
 colormap('gray');
 figure(3),
 subplot(1,5,1), imagesc(A_wnoise_20)
@@ -68,9 +72,9 @@ subplot(1,5,2), imagesc(log(abs(F_lena_noise)))
 title ('Fourier transform image with noise')
 subplot(1,5,3), imagesc(log(abs(F_filter )))
 title ('Fourier transform of gaussian kernel')
-subplot(1,5,4), imagesc(log(Z))
-title ('convolved image with noise and gaussian filter')
-subplot(1,5,4), imagesc(log(Z))
+subplot(1,5,4), imagesc(log(abs(mtx_mul)))
+title ('Multiplication of ft')
+subplot(1,5,5), imagesc(imfilter(A_wnoise_20,gaussian_kernel_10))
 title ('inverse')
 
 
@@ -97,6 +101,8 @@ img_median7 = medfilt2(A_uni_noise  , [7 7]);
 img_median3_uni = medfilt2(A_uni_noise );
 img_median5_uni = medfilt2(A_wnoise_20 , [5 5]);
 img_median7_uni = medfilt2(A_wnoise_20 , [7 7]);
+
+img_median20_uni = medfilt2(A_wnoise_20 , [20 20]);
 
 
 subplot(4,3,4), imshow(img_median3 ); title('median box 3x3');

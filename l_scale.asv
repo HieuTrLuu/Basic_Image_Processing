@@ -1,0 +1,54 @@
+function l_scaled = l_scale(image, slope, bias)
+%New image is rearranged so when transformed dc is at centre
+%
+%  Usage: new image = rearrange(image)
+%
+%  Parameters: image      - array of points 
+
+%get dimensions
+[rows,cols]=size(image); 
+
+%rearrange image
+l_scaled = zeros(rows,cols);
+
+for x = 1 :cols
+    for y = 1 :rows
+       if l_scaled(x,y) <=0
+          l_scaled(x,y) = 0;
+       elseif l_scaled(x,y) >255
+          l_scaled(x,y) = 255;
+       else
+          l_scaled(x,y) = l_scaled(x,y) *slope +bias; 
+       end
+    end
+end
+
+end
+
+function l_cliped= l_scale(image, slope, bias)
+%New image is rearranged so when transformed dc is at centre
+%
+%  Usage: new image = rearrange(image)
+%
+%  Parameters: image      - array of points 
+
+%get dimensions
+[rows,cols]=size(image); 
+
+%rearrange image
+l_scaled = zeros(rows,cols);
+
+for x = 1 :cols
+    for y = 1 :rows
+       if l_scaled(x,y) <=0
+          l_scaled(x,y) = 0;
+       elseif l_scaled(x,y) >255
+          l_scaled(x,y) = 255;
+       else
+          l_scaled(x,y) = l_scaled(x,y) *slope +bias; 
+       end
+    end
+end
+
+end
+
